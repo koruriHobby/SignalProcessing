@@ -18,3 +18,4 @@ C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\ref\SignalProcessingApp.dll
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\Views\MainWindow.baml
+C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\SignalProcessingApp.sourcelink.json
