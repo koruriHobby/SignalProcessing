@@ -5,7 +5,6 @@ C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\bin\Debug\net8.0-
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\bin\Debug\net8.0-windows\SignalProcessingApp.pdb
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\App.g.cs
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\SignalProcessingApp_MarkupCompile.cache
-C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\SignalProcessingApp_MarkupCompile.lref
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\SignalProcessingApp.g.resources
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\SignalProcessingApp.GeneratedMSBuildEditorConfig.editorconfig
 C:\デスクトップ\SignalProcessing\src\SignalProcessingApp\obj\Debug\net8.0-windows\SignalProcessingApp.AssemblyInfoInputs.cache

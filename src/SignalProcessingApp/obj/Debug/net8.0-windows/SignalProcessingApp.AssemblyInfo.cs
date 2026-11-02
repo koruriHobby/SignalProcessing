@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SignalProcessingApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c35920d49e4dcb61be33bf94eee41ae8704f4ca")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a2b22252ed28b929ad2d8dd0f3ca1607f1ae33b")]
 [assembly: System.Reflection.AssemblyProductAttribute("SignalProcessingApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SignalProcessingApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
