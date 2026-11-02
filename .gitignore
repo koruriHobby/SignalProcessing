@@ -1,0 +1,24 @@
+## --- Visual Studio ---
+/[Bb]in/
+/[Oo]j/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## --- .NET / C# ---
+project.lock.json
+project.fragment.lock.json
+artifacts/
+nupkgs/
+
+## --- OS Generated Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove=".github\**" />
+    <Compile Remove="src\**" />
+    <EmbeddedResource Remove=".github\**" />
+    <EmbeddedResource Remove="src\**" />
+    <None Remove=".github\**" />
+    <None Remove="src\**" />
+    <Page Remove=".github\**" />
+    <Page Remove="src\**" />
+  </ItemGroup>
+
+</Project>
