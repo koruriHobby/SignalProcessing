@@ -1,6 +1,8 @@
 ## --- Visual Studio ---
-/[Bb]in/
-/[Oo]j/
+/bin/
+/obj/
+/src/SignalProcessingApp/bin/
+/src/SignalProcessingApp/obj/
 .vs/
 *.user
 *.suo
