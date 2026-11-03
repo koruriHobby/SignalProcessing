@@ -108,7 +108,7 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 presenter.Reset();
                 ClearWaveform();
-                presenter.Start();
+                presenter.Start(frequency, samplingRate);
                 IsFrameProcessing = true;
                 IsParametersEnabled = false;
                 StatusMessage = "フレーム処理中...";

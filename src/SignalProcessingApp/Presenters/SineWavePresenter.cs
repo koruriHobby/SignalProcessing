@@ -60,8 +60,10 @@ public class SineWavePresenter : IPresenter
         OnWaveformGenerated(new WaveformGeneratedEventArgs(frameData));
     }
 
-    public void Start()
+    public void Start(double frequency, double samplingFrequency)
     {
+        currentFrequency = frequency;
+        currentSamplingFrequency = samplingFrequency;
         isProcessing = true;
     }
 

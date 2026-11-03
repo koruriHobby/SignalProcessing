@@ -11,7 +11,7 @@ public interface IPresenter
 
     void GenerateNextFrame(int frameSize);
 
-    void Start();
+    void Start(double frequency, double samplingFrequency);
 
     void Stop();
 
