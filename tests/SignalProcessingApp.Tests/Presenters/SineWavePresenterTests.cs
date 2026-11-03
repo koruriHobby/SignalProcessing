@@ -92,7 +92,7 @@ public class SineWavePresenterTests
         var presenter = new SineWavePresenter(usecaseMock.Object);
 
         // Act
-        presenter.Start();
+        presenter.Start(1000.0, 44100.0);
 
         // Assert
         Assert.True(presenter.IsProcessing);
@@ -107,7 +107,7 @@ public class SineWavePresenterTests
         // Arrange
         var usecaseMock = new Mock<IGenerateSineWaveUsecase>();
         var presenter = new SineWavePresenter(usecaseMock.Object);
-        presenter.Start();
+        presenter.Start(1000.0, 44100.0);
 
         // Act
         presenter.Stop();
@@ -125,7 +125,7 @@ public class SineWavePresenterTests
         // Arrange
         var usecaseMock = new Mock<IGenerateSineWaveUsecase>();
         var presenter = new SineWavePresenter(usecaseMock.Object);
-        presenter.Start();
+        presenter.Start(1000.0, 44100.0);
 
         // Act
         presenter.Reset();
@@ -181,15 +181,14 @@ public class SineWavePresenterTests
             eventRaised = true;
         };
 
-        presenter.Start();
+        presenter.Start(1000.0, 44100.0);
 
         // Act
         presenter.GenerateNextFrame(4);
 
         // Assert
         Assert.True(eventRaised);
-        usecaseMock.Verify(u => u.Execute(It.IsAny<double>(), It.IsAny<double>(),
-            It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+        usecaseMock.Verify(u => u.Execute(1000.0, 44100.0, 4, 0), Times.Once);
     }
 
     /// <summary>
@@ -206,7 +205,7 @@ public class SineWavePresenterTests
             .Returns(testFrameData);
 
         var presenter = new SineWavePresenter(usecaseMock.Object);
-        presenter.Start();
+        presenter.Start(1000.0, 44100.0);
 
         // Act
         int initialFrameIndex = presenter.CurrentFrameIndex;
