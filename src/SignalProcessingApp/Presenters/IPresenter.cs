@@ -7,11 +7,12 @@ public interface IPresenter
     void GenerateWaveform(
         double frequency,
         double samplingFrequency,
-        int dataSize);
+        int dataSize,
+        double gainDb);
 
     void GenerateNextFrame(int frameSize);
 
-    void Start(double frequency, double samplingFrequency);
+    void Start(double frequency, double samplingFrequency, double gainDb);
 
     void Stop();
 
@@ -28,8 +29,11 @@ public class WaveformGeneratedEventArgs : EventArgs
 {
     public double[] WaveformData { get; }
 
-    public WaveformGeneratedEventArgs(double[] waveformData)
+    public double[] GainedWaveformData { get; }
+
+    public WaveformGeneratedEventArgs(double[] waveformData, double[] gainedWaveformData)
     {
         WaveformData = waveformData;
+        GainedWaveformData = gainedWaveformData;
     }
 }

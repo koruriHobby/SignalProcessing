@@ -12,6 +12,11 @@ namespace SignalProcessingApp.Tests.Presenters;
 /// </summary>
 public class SineWavePresenterTests
 {
+    private static IApplyGainUsecase CreateGainUsecase()
+    {
+        return new ApplyGainUsecase(new SignalProcessingApp.Domains.GainProcessor());
+    }
+
     /// <summary>
     /// Presenterが正常に初期化されることをテスト。
     /// </summary>
@@ -22,7 +27,7 @@ public class SineWavePresenterTests
         var usecaseMock = new Mock<IGenerateSineWaveUsecase>();
 
         // Act
-        var presenter = new SineWavePresenter(usecaseMock.Object);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
 
         // Assert
         Assert.False(presenter.IsProcessing);
@@ -42,7 +47,7 @@ public class SineWavePresenterTests
             It.IsAny<int>(), It.IsAny<int>()))
             .Returns(testData);
 
-        var presenter = new SineWavePresenter(usecaseMock.Object);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
         bool eventRaised = false;
         WaveformGeneratedEventArgs? capturedEventArgs = null;
 
@@ -53,7 +58,7 @@ public class SineWavePresenterTests
         };
 
         // Act
-        presenter.GenerateWaveform(1000.0, 44100.0, 1024);
+        presenter.GenerateWaveform(1000.0, 44100.0, 1024, 0.0);
 
         // Assert
         Assert.True(eventRaised);
@@ -73,11 +78,11 @@ public class SineWavePresenterTests
             It.IsAny<int>(), It.IsAny<int>()))
             .Throws<ArgumentException>();
 
-        var presenter = new SineWavePresenter(usecaseMock.Object);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
 
         // Act & Assert
         Assert.Throws<ArgumentException>(
-            () => presenter.GenerateWaveform(-1.0, 44100.0, 1024)
+            () => presenter.GenerateWaveform(-1.0, 44100.0, 1024, 0.0)
         );
     }
 
@@ -89,10 +94,10 @@ public class SineWavePresenterTests
     {
         // Arrange
         var usecaseMock = new Mock<IGenerateSineWaveUsecase>();
-        var presenter = new SineWavePresenter(usecaseMock.Object);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
 
         // Act
-        presenter.Start(1000.0, 44100.0);
+        presenter.Start(1000.0, 44100.0, 0.0);
 
         // Assert
         Assert.True(presenter.IsProcessing);
@@ -106,8 +111,8 @@ public class SineWavePresenterTests
     {
         // Arrange
         var usecaseMock = new Mock<IGenerateSineWaveUsecase>();
-        var presenter = new SineWavePresenter(usecaseMock.Object);
-        presenter.Start(1000.0, 44100.0);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
+        presenter.Start(1000.0, 44100.0, 0.0);
 
         // Act
         presenter.Stop();
@@ -124,8 +129,8 @@ public class SineWavePresenterTests
     {
         // Arrange
         var usecaseMock = new Mock<IGenerateSineWaveUsecase>();
-        var presenter = new SineWavePresenter(usecaseMock.Object);
-        presenter.Start(1000.0, 44100.0);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
+        presenter.Start(1000.0, 44100.0, 0.0);
 
         // Act
         presenter.Reset();
@@ -143,7 +148,7 @@ public class SineWavePresenterTests
     {
         // Arrange
         var usecaseMock = new Mock<IGenerateSineWaveUsecase>();
-        var presenter = new SineWavePresenter(usecaseMock.Object);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
         bool eventRaised = false;
 
         presenter.WaveformGenerated += (s, e) =>
@@ -173,7 +178,7 @@ public class SineWavePresenterTests
             It.IsAny<int>(), It.IsAny<int>()))
             .Returns(testFrameData);
 
-        var presenter = new SineWavePresenter(usecaseMock.Object);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
         bool eventRaised = false;
 
         presenter.WaveformGenerated += (s, e) =>
@@ -181,7 +186,7 @@ public class SineWavePresenterTests
             eventRaised = true;
         };
 
-        presenter.Start(1000.0, 44100.0);
+        presenter.Start(1000.0, 44100.0, 0.0);
 
         // Act
         presenter.GenerateNextFrame(4);
@@ -204,8 +209,8 @@ public class SineWavePresenterTests
             It.IsAny<int>(), It.IsAny<int>()))
             .Returns(testFrameData);
 
-        var presenter = new SineWavePresenter(usecaseMock.Object);
-        presenter.Start(1000.0, 44100.0);
+        var presenter = new SineWavePresenter(usecaseMock.Object, CreateGainUsecase());
+        presenter.Start(1000.0, 44100.0, 0.0);
 
         // Act
         int initialFrameIndex = presenter.CurrentFrameIndex;

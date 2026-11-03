@@ -30,7 +30,7 @@
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="360"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -39,27 +39,48 @@
             <TextBlock Text="入力パラメータ" FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
 
             <!-- サンプリング周波数 -->
-            <TextBlock Text="サンプリング周波数："/>
-            <ComboBox ItemsSource="{Binding SamplingRates}"
-                      SelectedIndex="{Binding SamplingRateIndex}"
-                      IsEnabled="{Binding IsParametersEnabled}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <!-- フレームサイズ -->
-            <TextBlock Text="フレームサイズ：" Margin="0,15,20,6"/>
-            <ComboBox ItemsSource="{Binding DataAndFrameSizes}"
-                      SelectedIndex="{Binding FrameSizeIndex}"
-                      IsEnabled="{Binding IsParametersEnabled}"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="サンプリング周波数 [Hz]："/>
+                <ComboBox Grid.Row="0" Grid.Column="1"
+                          ItemsSource="{Binding SamplingRates}"
+                          SelectedIndex="{Binding SamplingRateIndex}"
+                          IsEnabled="{Binding IsParametersEnabled}"/>
 
-            <!-- データサイズ -->
-            <TextBlock Text="データサイズ：" Margin="0,15,20,6"/>
-            <ComboBox ItemsSource="{Binding DataAndFrameSizes}"
-                      SelectedIndex="{Binding DataSizeIndex}"
-                      IsEnabled="{Binding IsParametersEnabled}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="フレームサイズ [Sample]："/>
+                <ComboBox Grid.Row="1" Grid.Column="1"
+                          ItemsSource="{Binding DataAndFrameSizes}"
+                          SelectedIndex="{Binding FrameSizeIndex}"
+                          IsEnabled="{Binding IsParametersEnabled}"/>
 
-            <!-- 正弦波周波数 -->
-            <TextBlock Text="正弦波周波数（Hz）：" Margin="0,15,20,6"/>
-            <TextBox Text="{Binding FrequencyInput, UpdateSourceTrigger=PropertyChanged}"
-                     IsEnabled="{Binding IsParametersEnabled}"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="データサイズ [Sample]："/>
+                <ComboBox Grid.Row="2" Grid.Column="1"
+                          ItemsSource="{Binding DataAndFrameSizes}"
+                          SelectedIndex="{Binding DataSizeIndex}"
+                          IsEnabled="{Binding IsParametersEnabled}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="正弦波周波数 [Hz]："/>
+                <TextBox Grid.Row="3" Grid.Column="1"
+                         Text="{Binding FrequencyInput, UpdateSourceTrigger=PropertyChanged}"
+                         IsEnabled="{Binding IsParametersEnabled}"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="ゲイン[dB]："/>
+                <ComboBox Grid.Row="4" Grid.Column="1"
+                          ItemsSource="{Binding GainLabels}"
+                          SelectedIndex="{Binding GainIndex}"
+                          IsEnabled="{Binding IsParametersEnabled}"/>
+            </Grid>
 
             <!-- ステータス -->
             <TextBlock Text="ステータス" FontSize="12" Margin="0,20,0,5"/>
@@ -94,14 +115,29 @@
                         ToolTip="フレームサイズ分ずつ生成"/>
             </StackPanel>
 
-            <!-- 波形プロット表示セクション -->
-            <Border Grid.Row="1"
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    Background="White"
-                    Margin="10">
-                <scottplot:WpfPlot x:Name="waveformPlot"/>
-            </Border>
+            <!-- 波形プロット表示セクション（2行1列） -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        Background="White"
+                        Margin="10,10,10,5">
+                    <scottplot:WpfPlot x:Name="waveformPlot"/>
+                </Border>
+
+                <Border Grid.Row="1"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        Background="White"
+                        Margin="10,5,10,10">
+                    <scottplot:WpfPlot x:Name="gainedWaveformPlot"/>
+                </Border>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
