@@ -42,31 +42,19 @@ public partial class MainWindow : Window
         ObservableCollection<double> waveformDataPoints = viewModel.WaveformDataPoints;
         int dataSize = viewModel.DataAndFrameSizes[viewModel.DataSizeIndex];
 
-        if (waveformDataPoints.Count == 0)
-        {
-            waveformPlot.Plot.Clear();
-            waveformPlot.Plot.Axes.SetLimitsX(0, dataSize);
-            waveformPlot.Plot.Axes.SetLimitsY(-1, 1);
-            waveformPlot.Refresh();
-            return;
-        }
-
         waveformPlot.Plot.Clear();
 
-        double[] yValues = new double[waveformDataPoints.Count];
-        for (int i = 0; i < waveformDataPoints.Count; i++)
+        if (waveformDataPoints.Count > 0)
         {
-            yValues[i] = waveformDataPoints[i];
-        }
+            waveformPlot.Plot.Add.Signal(waveformDataPoints.ToArray());
 
-        waveformPlot.Plot.Add.Signal(yValues);
+            waveformPlot.Plot.XLabel("Sample Index");
+            waveformPlot.Plot.YLabel("Amplitude");
+            waveformPlot.Plot.Title("Sine Wave");
+        }
 
         waveformPlot.Plot.Axes.SetLimitsX(0, dataSize);
         waveformPlot.Plot.Axes.SetLimitsY(-1, 1);
-
-        waveformPlot.Plot.XLabel("Sample Index");
-        waveformPlot.Plot.YLabel("Amplitude");
-        waveformPlot.Plot.Title("Sine Wave");
 
         waveformPlot.Refresh();
     }

@@ -1,10 +1,10 @@
-#nullable enable
+﻿#nullable enable
 
 using Moq;
 using SignalProcessingApp.Presenters;
 using SignalProcessingApp.Usecases;
 
-namespace SignalProcessingApp.Tests;
+namespace SignalProcessingApp.Tests.Presenters;
 
 /// <summary>
 /// SineWavePresenterのテストクラス。
@@ -62,10 +62,10 @@ public class SineWavePresenterTests
     }
 
     /// <summary>
-    /// GenerateWaveformメソッドが無効なパラメータで例外をそのまま伝播し、ErrorOccurredイベントを発火しないことをテスト。
+    /// GenerateWaveformメソッドが無効なパラメータで例外をそのまま伝播することをテスト。
     /// </summary>
     [Fact]
-    public void GenerateWaveform_WithInvalidParameters_ShouldThrowWithoutRaisingErrorOccurredEvent()
+    public void GenerateWaveform_WithInvalidParameters_ShouldThrowArgumentException()
     {
         // Arrange
         var usecaseMock = new Mock<IGenerateSineWaveUsecase>();
@@ -74,15 +74,11 @@ public class SineWavePresenterTests
             .Throws<ArgumentException>();
 
         var presenter = new SineWavePresenter(usecaseMock.Object);
-        bool eventRaised = false;
-
-        presenter.ErrorOccurred += (s, e) => eventRaised = true;
 
         // Act & Assert
         Assert.Throws<ArgumentException>(
             () => presenter.GenerateWaveform(-1.0, 44100.0, 1024)
         );
-        Assert.False(eventRaised);
     }
 
     /// <summary>

@@ -1,8 +1,8 @@
-#nullable enable
+﻿#nullable enable
 
 using SignalProcessingApp.Domains;
 
-namespace SignalProcessingApp.Tests;
+namespace SignalProcessingApp.Tests.Domains;
 
 /// <summary>
 /// SineWaveParameterのテストクラス。

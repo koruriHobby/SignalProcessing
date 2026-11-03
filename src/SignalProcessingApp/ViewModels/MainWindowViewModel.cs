@@ -14,70 +14,49 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly IDialogService dialogService;
 
     [ObservableProperty]
-    private string frequencyInput;
+    private string frequencyInput = "1000";
 
     [ObservableProperty]
-    private int samplingRateIndex;
+    private int samplingRateIndex = 0;
 
     [ObservableProperty]
-    private int frameSizeIndex;
+    private int frameSizeIndex = 8;
 
     [ObservableProperty]
-    private int dataSizeIndex;
+    private int dataSizeIndex = 9;
 
     [ObservableProperty]
-    private ObservableCollection<double> waveformDataPoints;
+    private ObservableCollection<double> waveformDataPoints = new();
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(BatchProcessCommand))]
     private bool isFrameProcessing;
 
     [ObservableProperty]
-    private bool isParametersEnabled;
+    private bool isParametersEnabled = true;
 
     [ObservableProperty]
-    private string statusMessage;
+    private string statusMessage = "準備完了";
 
-    private int[] samplingRates = new[] { 44100, 48000, 96000 };
-    private int[] dataAndFrameSizes = new[] { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192 };
-
-    public int[] SamplingRates => samplingRates;
-    public int[] DataAndFrameSizes => dataAndFrameSizes;
+    public int[] SamplingRates { get; } = { 44100, 48000, 96000 };
+    public int[] DataAndFrameSizes { get; } = { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192 };
 
     public MainWindowViewModel(IPresenter presenter, IDialogService dialogService)
     {
         this.presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
         this.dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
-        frequencyInput = "1000";
-        samplingRateIndex = 0;
-        frameSizeIndex = 8;
-        dataSizeIndex = 9; 
-        waveformDataPoints = new ObservableCollection<double>();
-        isFrameProcessing = false;
-        isParametersEnabled = true;
-        statusMessage = "準備完了";
-
         presenter.WaveformGenerated += OnPresenterWaveformGenerated;
-        presenter.ErrorOccurred += OnPresenterErrorOccurred;
     }
 
     [RelayCommand]
     private void Reset()
     {
-        try
-        {
-            WaveformDataPoints.Clear();
-            OnPropertyChanged(nameof(WaveformDataPoints));
-            presenter.Reset();
-            IsParametersEnabled = true;
-            IsFrameProcessing = false;
-            StatusMessage = "リセット完了";
-        }
-        catch (Exception ex)
-        {
-            dialogService.ShowError($"リセット中にエラーが発生しました: {ex.Message}");
-        }
+        presenter.Reset();
+        ClearWaveform();
+        IsParametersEnabled = true;
+        IsFrameProcessing = false;
+        StatusMessage = "リセット完了";
     }
 
     [RelayCommand(CanExecute = nameof(CanBatchProcess))]
@@ -94,18 +73,14 @@ public partial class MainWindowViewModel : ObservableObject
             int dataSize = DataAndFrameSizes[DataSizeIndex];
 
             presenter.Reset();
-            WaveformDataPoints.Clear();
+            ClearWaveform();
 
             StatusMessage = "一括処理中...";
             presenter.GenerateWaveform(frequency, samplingRate, dataSize);
         }
-        catch (ArgumentException ex)
-        {
-            dialogService.ShowError($"生成エラー: {ex.Message}");
-        }
         catch (Exception ex)
         {
-            dialogService.ShowError($"予期しないエラー: {ex.Message}");
+            ShowProcessingError(ex);
         }
     }
 
@@ -132,7 +107,7 @@ public partial class MainWindowViewModel : ObservableObject
             if (!IsFrameProcessing)
             {
                 presenter.Reset();
-                WaveformDataPoints.Clear();
+                ClearWaveform();
                 presenter.Start();
                 IsFrameProcessing = true;
                 IsParametersEnabled = false;
@@ -143,9 +118,7 @@ public partial class MainWindowViewModel : ObservableObject
 
             if (presenter.CurrentFrameIndex >= dataSize)
             {
-                IsFrameProcessing = false;
-                IsParametersEnabled = true;
-                presenter.Stop();
+                EndFrameProcessing();
                 StatusMessage = "フレーム処理完了";
             }
             else
@@ -153,20 +126,30 @@ public partial class MainWindowViewModel : ObservableObject
                 StatusMessage = $"フレーム処理中... {presenter.CurrentFrameIndex}/{dataSize}";
             }
         }
-        catch (ArgumentException ex)
-        {
-            dialogService.ShowError($"生成エラー: {ex.Message}");
-            IsFrameProcessing = false;
-            IsParametersEnabled = true;
-            presenter.Stop();
-        }
         catch (Exception ex)
         {
-            dialogService.ShowError($"予期しないエラー: {ex.Message}");
-            IsFrameProcessing = false;
-            IsParametersEnabled = true;
-            presenter.Stop();
+            EndFrameProcessing();
+            ShowProcessingError(ex);
         }
+    }
+
+    private void EndFrameProcessing()
+    {
+        IsFrameProcessing = false;
+        IsParametersEnabled = true;
+        presenter.Stop();
+    }
+
+    private void ShowProcessingError(Exception ex)
+    {
+        string prefix = ex is ArgumentException ? "生成エラー" : "予期しないエラー";
+        dialogService.ShowError($"{prefix}: {ex.Message}");
+    }
+
+    private void ClearWaveform()
+    {
+        WaveformDataPoints.Clear();
+        OnPropertyChanged(nameof(WaveformDataPoints));
     }
 
     private bool TryValidateFrequency(out double frequency)
@@ -192,9 +175,4 @@ public partial class MainWindowViewModel : ObservableObject
         OnPropertyChanged(nameof(WaveformDataPoints));
         StatusMessage = $"データ点数: {WaveformDataPoints.Count}";
     }
-
-    private void OnPresenterErrorOccurred(object? sender, ErrorOccurredEventArgs eventArgs)
-    {
-        dialogService.ShowError($"エラー: {eventArgs.Message}");
     }
-}
