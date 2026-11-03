@@ -1,10 +1,10 @@
-#nullable enable
+﻿#nullable enable
 
 using Moq;
 using SignalProcessingApp.Domains;
 using SignalProcessingApp.Usecases;
 
-namespace SignalProcessingApp.Tests;
+namespace SignalProcessingApp.Tests.Usecases;
 
 /// <summary>
 /// GenerateSineWaveUsecaseのテストクラス。

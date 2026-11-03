@@ -22,8 +22,6 @@ public interface IPresenter
     int CurrentFrameIndex { get; }
 
     event EventHandler<WaveformGeneratedEventArgs>? WaveformGenerated;
-
-    event EventHandler<ErrorOccurredEventArgs>? ErrorOccurred;
 }
 
 public class WaveformGeneratedEventArgs : EventArgs
@@ -33,15 +31,5 @@ public class WaveformGeneratedEventArgs : EventArgs
     public WaveformGeneratedEventArgs(double[] waveformData)
     {
         WaveformData = waveformData;
-    }
-}
-
-public class ErrorOccurredEventArgs : EventArgs
-{
-    public string Message { get; }
-
-    public ErrorOccurredEventArgs(string message)
-    {
-        Message = message;
     }
 }
