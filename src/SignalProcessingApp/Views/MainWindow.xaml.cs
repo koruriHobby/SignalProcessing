@@ -39,23 +39,32 @@ public partial class MainWindow : Window
 
     private void UpdateWaveformPlot(MainWindowViewModel viewModel)
     {
-        ObservableCollection<double> waveformDataPoints = viewModel.WaveformDataPoints;
         int dataSize = viewModel.DataAndFrameSizes[viewModel.DataSizeIndex];
 
-        waveformPlot.Plot.Clear();
+        UpdatePlot(waveformPlot, viewModel.WaveformDataPoints, dataSize, "Sine Wave");
+        UpdatePlot(gainedWaveformPlot, viewModel.GainedWaveformDataPoints, dataSize, "Sine Wave (Gain Applied)");
+    }
 
-        if (waveformDataPoints.Count > 0)
+    private static void UpdatePlot(
+        ScottPlot.WPF.WpfPlot plot,
+        ObservableCollection<double> dataPoints,
+        int dataSize,
+        string title)
+    {
+        plot.Plot.Clear();
+
+        if (dataPoints.Count > 0)
         {
-            waveformPlot.Plot.Add.Signal(waveformDataPoints.ToArray());
+            plot.Plot.Add.Signal(dataPoints.ToArray());
 
-            waveformPlot.Plot.XLabel("Sample Index");
-            waveformPlot.Plot.YLabel("Amplitude");
-            waveformPlot.Plot.Title("Sine Wave");
+            plot.Plot.XLabel("Sample Index");
+            plot.Plot.YLabel("Amplitude");
+            plot.Plot.Title(title);
         }
 
-        waveformPlot.Plot.Axes.SetLimitsX(0, dataSize);
-        waveformPlot.Plot.Axes.SetLimitsY(-1, 1);
+        plot.Plot.Axes.SetLimitsX(0, dataSize);
+        plot.Plot.Axes.SetLimitsY(-1, 1);
 
-        waveformPlot.Refresh();
+        plot.Refresh();
     }
 }

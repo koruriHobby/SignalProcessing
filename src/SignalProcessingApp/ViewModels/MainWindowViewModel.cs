@@ -26,7 +26,13 @@ public partial class MainWindowViewModel : ObservableObject
     private int dataSizeIndex = 9;
 
     [ObservableProperty]
+    private int gainIndex = 0;
+
+    [ObservableProperty]
     private ObservableCollection<double> waveformDataPoints = new();
+
+    [ObservableProperty]
+    private ObservableCollection<double> gainedWaveformDataPoints = new();
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(BatchProcessCommand))]
@@ -40,6 +46,9 @@ public partial class MainWindowViewModel : ObservableObject
 
     public int[] SamplingRates { get; } = { 44100, 48000, 96000 };
     public int[] DataAndFrameSizes { get; } = { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192 };
+    public string[] GainLabels { get; } = { "0", "-3", "-6", "-9", "-12", "-∞" };
+
+    private static readonly double[] GainValuesDb = { 0, -3, -6, -9, -12, double.NegativeInfinity };
 
     public MainWindowViewModel(IPresenter presenter, IDialogService dialogService)
     {
@@ -76,7 +85,7 @@ public partial class MainWindowViewModel : ObservableObject
             ClearWaveform();
 
             StatusMessage = "一括処理中...";
-            presenter.GenerateWaveform(frequency, samplingRate, dataSize);
+            presenter.GenerateWaveform(frequency, samplingRate, dataSize, GainValuesDb[GainIndex]);
         }
         catch (Exception ex)
         {
@@ -108,7 +117,7 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 presenter.Reset();
                 ClearWaveform();
-                presenter.Start(frequency, samplingRate);
+                presenter.Start(frequency, samplingRate, GainValuesDb[GainIndex]);
                 IsFrameProcessing = true;
                 IsParametersEnabled = false;
                 StatusMessage = "フレーム処理中...";
@@ -149,6 +158,7 @@ public partial class MainWindowViewModel : ObservableObject
     private void ClearWaveform()
     {
         WaveformDataPoints.Clear();
+        GainedWaveformDataPoints.Clear();
         OnPropertyChanged(nameof(WaveformDataPoints));
     }
 
@@ -170,6 +180,11 @@ public partial class MainWindowViewModel : ObservableObject
         foreach (double value in eventArgs.WaveformData)
         {
             WaveformDataPoints.Add(value);
+        }
+
+        foreach (double value in eventArgs.GainedWaveformData)
+        {
+            GainedWaveformDataPoints.Add(value);
         }
 
         OnPropertyChanged(nameof(WaveformDataPoints));

@@ -26,12 +26,14 @@ public partial class App : Application
 
         // Domain層のインスタンス生成
         var sineWaveGenerator = new SineWaveGenerator();
+        var gainProcessor = new GainProcessor();
 
         // Usecase層のインスタンス生成
         var generateSineWaveUsecase = new GenerateSineWaveUsecase(sineWaveGenerator);
+        var applyGainUsecase = new ApplyGainUsecase(gainProcessor);
 
         // Presenter層のインスタンス生成
-        var presenter = new SineWavePresenter(generateSineWaveUsecase);
+        var presenter = new SineWavePresenter(generateSineWaveUsecase, applyGainUsecase);
 
         // Service層のインスタンス生成
         var dialogService = new WpfDialogService();
