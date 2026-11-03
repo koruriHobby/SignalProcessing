@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\デスクトップ\\SignalProcessing\\src\\SignalProcessingApp\\SignalProcessingApp.csproj": {}
+    "C:\\Users\\ksato\\source\\repos\\koruriHobby\\SignalProcessing\\src\\SignalProcessingApp\\SignalProcessingApp.csproj": {}
   },
   "projects": {
-    "C:\\デスクトップ\\SignalProcessing\\src\\SignalProcessingApp\\SignalProcessingApp.csproj": {
+    "C:\\Users\\ksato\\source\\repos\\koruriHobby\\SignalProcessing\\src\\SignalProcessingApp\\SignalProcessingApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\デスクトップ\\SignalProcessing\\src\\SignalProcessingApp\\SignalProcessingApp.csproj",
+        "projectUniqueName": "C:\\Users\\ksato\\source\\repos\\koruriHobby\\SignalProcessing\\src\\SignalProcessingApp\\SignalProcessingApp.csproj",
         "projectName": "SignalProcessingApp",
-        "projectPath": "C:\\デスクトップ\\SignalProcessing\\src\\SignalProcessingApp\\SignalProcessingApp.csproj",
+        "projectPath": "C:\\Users\\ksato\\source\\repos\\koruriHobby\\SignalProcessing\\src\\SignalProcessingApp\\SignalProcessingApp.csproj",
         "packagesPath": "C:\\Users\\ksato\\.nuget\\packages\\",
-        "outputPath": "C:\\デスクトップ\\SignalProcessing\\src\\SignalProcessingApp\\obj\\",
+        "outputPath": "C:\\Users\\ksato\\source\\repos\\koruriHobby\\SignalProcessing\\src\\SignalProcessingApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -29,7 +29,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0-windows7.0": {
+          "net8.0-windows": {
+            "framework": "net8.0-windows7.0",
             "targetAlias": "net8.0-windows",
             "projectReferences": {}
           }
@@ -44,11 +45,22 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
-        "net8.0-windows7.0": {
+        "net8.0-windows": {
+          "framework": "net8.0-windows7.0",
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.4.2, )"
+            },
+            "ScottPlot.WPF": {
+              "target": "Package",
+              "version": "[5.0.33, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -68,7 +80,12 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.320/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }
